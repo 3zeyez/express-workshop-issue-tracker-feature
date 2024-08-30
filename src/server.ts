@@ -1,17 +1,13 @@
 import express, {Request, Response} from "express";
 import dotenv from "dotenv";
+import { healthcheck } from "./routes";
 
 dotenv.config();
-const app = express();
+export let app = express();
 
 const PORT = process.env.PORT;
 
-app.get('/healthcheck', (req: Request, res: Response) => {
-    res
-        .status(200)
-        .setHeader('Content-Type', 'application/json')
-        .send(JSON.stringify({"msg": "Server is up!"}));
-})
+app = new healthcheck(app);
 
 app.listen(PORT, () => {
     console.log("Server is running at ", `http://localhost:${PORT}`);
